@@ -1,28 +1,35 @@
-const items = document.querySelector('.items');
+// Function to handle the drag operation
 let isMouseDown = false;
 let startX;
 let scrollLeft;
 
-items.addEventListener('mousedown', (e) => {
+const itemsContainer = document.querySelector('.items');
+
+// Mouse down event: This starts the drag operation
+itemsContainer.addEventListener('mousedown', (e) => {
   isMouseDown = true;
-  startX = e.pageX - items.offsetLeft; // Get the initial position of the mouse
-  scrollLeft = items.scrollLeft; // Get the current scroll position
-  items.classList.add('active'); // Add active class when dragging starts
+  startX = e.pageX - itemsContainer.offsetLeft; // Calculate the starting X position
+  scrollLeft = itemsContainer.scrollLeft; // Store the initial scroll position
+  itemsContainer.classList.add('active'); // Optional: Add the active class for styling
 });
 
-items.addEventListener('mouseleave', () => {
+// Mouse leave event: In case the mouse leaves the area while dragging
+itemsContainer.addEventListener('mouseleave', () => {
   isMouseDown = false;
-  items.classList.remove('active'); // Remove active class when mouse leaves
+  itemsContainer.classList.remove('active');
 });
 
-items.addEventListener('mouseup', () => {
+// Mouse up event: Ends the drag operation
+itemsContainer.addEventListener('mouseup', () => {
   isMouseDown = false;
-  items.classList.remove('active'); // Remove active class when mouse is released
+  itemsContainer.classList.remove('active');
 });
 
-items.addEventListener('mousemove', (e) => {
-  if (!isMouseDown) return; // Do nothing if the mouse is not pressed down
-  const x = e.pageX - items.offsetLeft; // Calculate the current mouse position
-  const walk = (x - startX) * 2; // Calculate how far the mouse has moved
-  items.scrollLeft = scrollLeft - walk; // Update the scroll position based on mouse movement
+// Mouse move event: Handles the actual dragging
+itemsContainer.addEventListener('mousemove', (e) => {
+  if (!isMouseDown) return; // If mouse is not down, don't do anything
+  
+  const x = e.pageX - itemsContainer.offsetLeft; // Current X position
+  const walk = (x - startX) * 2; // Calculate the movement distance, 2x speed for better effect
+  itemsContainer.scrollLeft = scrollLeft - walk; // Update the scroll position
 });
